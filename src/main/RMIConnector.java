@@ -196,6 +196,13 @@ public class RMIConnector {
         loggedIn = LoggedIn;
     }
     
+    public static void main(String[] args) {
+        RMIConnector.setConfig("10.73.32.200", 1099);
+        RMIConnector rmic = new RMIConnector();
+        String pminew = rmic.getPMI("10.73.32.200", 1099, "asbasd");
+        System.out.println("new pmi: "+pminew);
+    }
+    
 //    public static void main(String[] args) {
 //        String username = "khanapi";
 //        String password = "abc123";
@@ -238,6 +245,20 @@ public class RMIConnector {
 //        ArrayList<ArrayList<String>> data = rmi.getQuerySQL("10.73.32.200", 1099, sql);
 //        System.out.println(data);
 //    }
+    
+    public String getPMI(String host, int port, String ic) {
+        String pmi = "";
+        try {
+            Registry myRegistry = LocateRegistry.getRegistry(host, port);
+            Message impl = (Message) myRegistry.lookup("myMessage");
+            pmi = impl.getPMI(ic);
+        } catch (Exception e) {
+            pmi = "";
+            J.o("Error!", "Error! Something wrong while execute the query!!\n" + e.getMessage(), 0);
+            e.printStackTrace();
+        }
+        return pmi;
+    }
     
     public boolean setQuerySQL(String host, int port, String query) {
         boolean stat = false;

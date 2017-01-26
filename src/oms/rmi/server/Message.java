@@ -29,4 +29,7 @@ public interface Message extends Remote {
     // fast sql query
     boolean setQuerySQL(String query) throws RemoteException;
     ArrayList<ArrayList<String>> getQuerySQL(String query) throws RemoteException;
+    
+    //get new pmi no, generated check digit
+    String getPMI(String ic) throws RemoteException;
 }
